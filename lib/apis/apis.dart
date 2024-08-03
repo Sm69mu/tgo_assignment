@@ -10,7 +10,8 @@ class ExerciseRepository {
 
   Future<List<Exercise>> getExercises(int page) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl+$page'));
+      final response = await http.get(Uri.parse('$baseUrl+$page'.toString()));
+   
 
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);

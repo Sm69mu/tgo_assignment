@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:tgo_assignment/presentation/screens/excercise_tabs/ex_tab_cooldown.dart';
+import 'package:tgo_assignment/presentation/screens/excercise_tabs/ex_tab_training.dart';
+import 'package:tgo_assignment/presentation/screens/excercise_tabs/ex_tab_warmup.dart';
 import 'package:tgo_assignment/presentation/screens/excersice_screen.dart';
 import 'package:tgo_assignment/presentation/widgets/excersice_tile.dart';
 import 'package:tgo_assignment/providers/excercise_provider.dart';
@@ -28,53 +31,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
-            Expanded(
-              child: Consumer<ExerciseProvider>(
-                builder: (context, excerciseProvider, child) {
-                  return ListView.builder(
-                    itemCount: excerciseProvider.addedExcercises.length,
-                    itemBuilder: (context, index) {
-                      final excercise =
-                          excerciseProvider.addedExcercises[index];
-                      return ExcersiceTile(
-                        title: excerciseProvider.addedExcercises[index].title,
-                        image:
-                            excerciseProvider.addedExcercises[index].coverImage,
-                        icon: Icons.cancel_outlined,
-                        ontap: null,
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-            Center(
-              child: CupertinoButton.filled(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text("Add Excersices"),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) => const ExcersiceScreen()));
-                  }),
-            ),
+            Expanded(child: PageView.builder(itemBuilder: (context, index) {
+              PageView(
+                controller: PageController(initialPage: 1),
+                children: const [
+                  WarmuPage(),
+                  TraingPage(),
+                  CooldownPage(),
+                ],
+              );
+            })),
           ],
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: CupertinoButton.filled(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Add Excersices"),
+              SizedBox(
+                width: 5,
+              ),
+              Icon(
+                Icons.add,
+                color: Colors.white,
+              )
+            ],
+          ),
+          onPressed: () {
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => const ExcersiceScreen()));
+          }),
     );
   }
 }

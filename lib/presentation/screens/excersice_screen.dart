@@ -68,34 +68,42 @@ class _ExcersiceScreenState extends State<ExcersiceScreen> {
           builder: (context, value, child) {
             return RefreshIndicator(
               onRefresh: _onRefresh,
-              child: ListView.builder(
-                itemCount: value.exercises.length + 1,
-                controller: scrollController,
-                itemBuilder: (context, index) {
-                  if (index < value.exercises.length) {
-                    return Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: ExcersiceTile(
-                        icon: CupertinoIcons.add,
-                        ontap: () {
-                          context
-                              .read<ExerciseProvider>()
-                              .addExercises(value.exercises);
-                        },
-                        image: value.exercises[index].coverImage,
-                        title: value.exercises[index].title,
+              child: value.isloading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: Color.fromARGB(255, 237, 128, 26),
                       ),
-                    );
-                  } else {
-                    return const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 20),
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  }
-                },
-              ),
+                    )
+                  : ListView.builder(
+                      itemCount: value.exercises.length + 1,
+                      controller: scrollController,
+                      itemBuilder: (context, index) {
+                        if (index < value.exercises.length) {
+                          return Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: ExcersiceTile(
+                              icon: CupertinoIcons.add,
+                              ontap: () {
+                                context
+                                    .read<ExerciseProvider>()
+                                    .adExcersices(value.exercises);
+                              },
+                              image: value.exercises[index].coverImage,
+                              title: value.exercises[index].title,
+                            ),
+                          );
+                        } else {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20, bottom: 20),
+                              child: CircularProgressIndicator(
+                                color: Color.fromARGB(255, 237, 128, 26),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
             );
           },
         ),
